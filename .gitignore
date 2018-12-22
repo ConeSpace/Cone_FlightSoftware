@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+/FirstTest/.vs/FirstTest/v15/Browse.VC.db
+/FirstTest/.vs/FirstTest/v15/Browse.VC.opendb

@@ -56,6 +56,19 @@ int main(void)
 
 			}
 
+		} else if (TestCode == 003) {
+			//Test Script for Test Code 003
+			//Name: Status Button
+			//Desccription: Prints 1 if Button is pressed
+
+			pinMode(7, INPUT);
+
+			while (true) {
+
+				
+
+			}
+
 		} else {
 			//No matching Test Code found
 			std::cout << "ERROR: Unknown Test-Code" << std::endl;

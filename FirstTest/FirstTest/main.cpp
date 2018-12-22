@@ -1,6 +1,7 @@
 #include <wiringPi.h>
 #include <iostream>
 #include <cstdio>
+#include <stdio.h>
 
 /*
 This Script is to provide a testing base for components. It may also be used for debugging.
@@ -12,6 +13,10 @@ Sebastian Dohnal
 
 int main(void)
 {
+
+	//Setup
+	wiringPiSetup();
+
 	//Enter testing loop
 	while (true) {
 		//Ask for Test Code
@@ -32,7 +37,26 @@ int main(void)
 				std::cout << "Hello World!" << std::endl;
 				delayMicroseconds(1000000);
 			}
-		} else { 
+		}
+		else if (TestCode == 002) {
+			//Test Script for Test Code 002
+			//Name: Status LED Blink
+			//Desccription: Makes LED Blink every second
+
+			pinMode(4, OUTPUT);
+
+			while (true) {
+
+				printf("LED ON\n");
+				digitalWrite(4, 1);
+				delay(1000);
+				printf("LED OFF\n");
+				digitalWrite(4, 0);
+				delay(1000);
+
+			}
+
+		} else {
 			//No matching Test Code found
 			std::cout << "ERROR: Unknown Test-Code" << std::endl;
 		}

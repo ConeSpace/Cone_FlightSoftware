@@ -43,15 +43,15 @@ int main(void)
 			//Name: Status LED Blink
 			//Desccription: Makes LED Blink every second
 
-			pinMode(4, OUTPUT);
+			pinMode(7, OUTPUT);
 
 			while (true) {
 
 				printf("LED ON\n");
-				digitalWrite(4, 1);
+				digitalWrite(7, 1);
 				delay(1000);
 				printf("LED OFF\n");
-				digitalWrite(4, 0);
+				digitalWrite(7, 0);
 				delay(1000);
 
 			}

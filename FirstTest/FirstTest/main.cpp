@@ -15,7 +15,7 @@ int main(void)
 
 	//pinMode(LED, OUTPUT);
 
-	cout << "Hello world\n";
+	printf("HELLO WORLD!");
 	
 	return 0;
 }

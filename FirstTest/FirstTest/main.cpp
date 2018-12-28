@@ -2,12 +2,14 @@
 #include <iostream>
 #include <cstdio>
 #include <stdio.h>
+#include <wiringSerial.h>
+#include <string.h>
 
 /*
 This Script is to provide a testing base for components. It may also be used for debugging.
 
-22-12-2018
-V0.1
+28-12-2018
+V0.2
 Sebastian Dohnal
 */
 
@@ -69,7 +71,73 @@ int main(void)
 
 			}
 
-		} else {
+		}
+		else if (TestCode == 004) {
+			//Test Script for Test Code 004
+			//Name: Transmit
+			//Desccription: Transmitts "Hello World" every second
+			//
+			//Pin Layout 
+			//8-TXD
+			//10-RXD
+			//16-M0
+			//18-M1
+
+			printf("TestCode 004 initializing...\n");
+
+
+			pinMode(4, OUTPUT);
+			pinMode(5, OUTPUT);
+			printf("Outputs set...");
+
+			int fd;
+			if (wiringPiSetup() < 0)return 1;
+			if ((fd = serialOpen("/dev/ttyAMA0", 115200)) < 0)return 1;
+			printf("serial test start ...\n");
+			serialPrintf(fd, "Hello World!");
+			printf("Sucessfull!");
+			while (true) {
+				serialPrintf(fd, "Hello World!");
+				printf("Transmitting...\n");
+				delay(1000);
+
+			}
+
+
+
+		}
+		else if (TestCode == 005) {
+			//Test Script for Test Code 005
+			//Name: Receive
+			//Desccription: Receives Data and prints it
+			//
+			//Pin Layout 
+			//8-TXD
+			//10-RXD
+			//16-M0
+			//18-M1
+
+			printf("TestCode 005 initializing...\n");
+
+
+			pinMode(4, OUTPUT);
+			pinMode(5, OUTPUT);
+			printf("Outputs set...");
+
+			int fd;
+			if (wiringPiSetup() < 0)return 1;
+			if ((fd = serialOpen("/dev/ttyAMA0", 115200)) < 0)return 1;
+			printf("serial test start ...\n");
+			serialPrintf(fd, "Hello World!");
+			printf("Sucessfull!");
+			while (true) {
+				putchar(serialDataAvail(fd));
+			}
+
+
+
+		}
+		else {
 			//No matching Test Code found
 			std::cout << "ERROR: Unknown Test-Code" << std::endl;
 		}

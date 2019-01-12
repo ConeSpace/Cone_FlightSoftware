@@ -91,14 +91,17 @@ int main(void)
 			printf("Outputs set...");
 
 			int fd;
+			int count;
 			if (wiringPiSetup() < 0)return 1;
-			if ((fd = serialOpen("/dev/ttyAMA0", 115200)) < 0)return 1;
+			if ((fd = serialOpen("/dev/serial0", 9600)) < 0)return 1;
 			printf("serial test start ...\n");
 			serialPrintf(fd, "Hello World!");
+			count++;
 			printf("Sucessfull!");
 			while (true) {
 				serialPrintf(fd, "Hello World!");
 				printf("Transmitting...\n");
+				count++;
 				delay(1000);
 
 			}
@@ -124,16 +127,18 @@ int main(void)
 			pinMode(5, OUTPUT);
 			printf("Outputs set...");
 
+			
 			int fd;
 			if (wiringPiSetup() < 0)return 1;
-			if ((fd = serialOpen("/dev/ttyAMA0", 115200)) < 0)return 1;
+			if ((fd = serialOpen("/dev/serial0", 9600)) < 0)return 1;
 			printf("serial test start ...\n");
 			serialPrintf(fd, "Hello World!");
 			printf("Sucessfull!");
 			while (true) {
-				putchar(serialDataAvail(fd));
+				putchar(serialGetchar(fd));
+				delay(1);
 			}
-
+			
 
 
 		}

@@ -1,9 +1,12 @@
 ﻿  Validating sources
-  Copying sources remotely to '192.168.178.55'
+  Copying sources remotely to '192.168.178.56'
   Validating architecture
   Starting remote build
   Compiling sources:
   main.cpp
+I:\Coding\Cone\Flight Software\Cone_FlightSoftware\FirstTest\FirstTest\main.cpp(99,11): warning : 'count' may be used uninitialized in this function [-Wmaybe-uninitialized]
+I:\Coding\Cone\Flight Software\Cone_FlightSoftware\FirstTest\FirstTest\main.cpp(99,11): warning :     count++;
+I:\Coding\Cone\Flight Software\Cone_FlightSoftware\FirstTest\FirstTest\main.cpp(99,11): warning :            ^
   Linking objects
   FirstTest.vcxproj -> I:\Coding\Cone\Flight Software\Cone_FlightSoftware\FirstTest\FirstTest\bin\ARM\Debug\FirstTest.out
   Invoking 'gpio export 17 out', working directory: '/home/pi/projects/FirstTest'

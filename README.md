@@ -7,3 +7,7 @@ Use the FirstTest and main.cpp to access the TestCode terminal. Enter a TestCode
 Use serialtest3.py for testing serial comm on the ground station.
 Use serialtest2.py for testing serial comm on the vehicle.
 Both only work with the significant other
+
+# Other information:
+
+The Code of Conduct can be found [here](CODE_OF_CONDUCT.md)

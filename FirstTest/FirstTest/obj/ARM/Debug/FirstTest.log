@@ -1,9 +1,0 @@
-﻿  Validating sources
-  Copying sources remotely to '192.168.178.55'
-  Validating architecture
-  Starting remote build
-  Compiling sources:
-  main.cpp
-  Linking objects
-  FirstTest.vcxproj -> I:\Coding\Cone\Flight Software\Cone_FlightSoftware\FirstTest\FirstTest\bin\ARM\Debug\FirstTest.out
-  Invoking 'gpio export 17 out', working directory: '/home/pi/projects/FirstTest'

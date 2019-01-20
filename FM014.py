@@ -9,6 +9,8 @@ import IMUGps
 import Comm
 import datetime
 
+
+
 while True:
     
     msg = Comm.fnc_CommRecieve()
@@ -23,5 +25,6 @@ while True:
         lon = msgSplit[7]
         dirLon = msgSplit[8]
         
-        print ("Position: Lat: " + lat + " " + dirLat + " Lon: " + lon + dirLon
+        print ("Position: Lat: " + lat + " " + dirLat + " Lon: " + lon + dirLon)
+        
     

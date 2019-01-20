@@ -44,7 +44,7 @@ def parseGPS(data):
     if data[0:6] == "$GNRMC":
         sdata = data.split(",")
         if sdata[2] == 'V':
-            #print "no satellite data available GNRMC"
+            print "no satellite data available GNRMC"
             return
         #print "---Parsing GNRMC---",
         time = sdata[1][0:2] + ":" + sdata[1][2:4] + ":" + sdata[1][4:6]
@@ -69,7 +69,7 @@ def parseGPS(data):
     elif data[0:6] == "$GPRMC":
         sdata = data.split(",")
         if sdata[2] == 'V':
-            #print "no satellite data available GPRMC"
+            print "no satellite data available GPRMC"
             return
         #print "---Parsing GPRMC---",
         time = sdata[1][0:2] + ":" + sdata[1][2:4] + ":" + sdata[1][4:6]

@@ -394,8 +394,8 @@ def fnc_IMU_AxxComGry():
     CFangleY=AA*(CFangleY+rate_gyr_y*LP) +(1 - AA) * AccYangle
 
     #Kalman filter used to combine the accelerometer and gyro values.
-    kalmanY = kalmanFilterY(AccYangle, rate_gyr_y,LP)
-    kalmanX = kalmanFilterX(AccXangle, rate_gyr_x,LP)
+    kalmanY = round(kalmanFilterY(AccYangle, rate_gyr_y,LP), 3)
+    kalmanX = round(kalmanFilterX(AccXangle, rate_gyr_x,LP), 3)
 
     if IMU_UPSIDE_DOWN:
         MAGy = -MAGy      #If IMU is upside down, this is needed to get correct heading.
@@ -441,7 +441,7 @@ def fnc_IMU_AxxComGry():
 
 
     #Calculate tilt compensated heading
-    tiltCompensatedHeading = 180 * math.atan2(magYcomp,magXcomp)/M_PI
+    tiltCompensatedHeading = round(180 * math.atan2(magYcomp,magXcomp)/M_PI, 1)
 
     if tiltCompensatedHeading < 0:
                 tiltCompensatedHeading += 360
@@ -471,12 +471,12 @@ def fnc_IMU_AxxComGry():
     
     ###MEASURE G###
 
-    Gx = ((ACCx * 0.244)/1000)
-    Gy = ((ACCy * 0.244)/1000)
-    Gz = ((ACCz * 0.244)/1000)
+    Gx = round((ACCx * 0.244)/1000, 3)
+    Gy = round((ACCy * 0.244)/1000, 3)
+    Gz = round((ACCz * 0.244)/1000, 3)
     
     #To call: ACCx, ACCy, ACCz, gyroXangle, gyroYangle, gyroZangle, tiltCompensatedHeading = fnc_IMU_AxxComGry()
-    return Gx, Gy, Gz, kalmanX, kalmanY, gyroZangle, tiltCompensatedHeading 
+    return Gx, Gy, Gz, kalmanX, kalmanY, round(gyroZangle, 3), tiltCompensatedHeading 
 
 
 

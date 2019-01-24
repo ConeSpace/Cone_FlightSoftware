@@ -92,13 +92,23 @@ def fnc_IMUTempPress(QnH):
     pressure = round((p + (var1 + var2 + (dig_P7)) / 16.0) / 100, 2) #Delete -8
     
     # Calculate height from pressure
-    altitudeM = round(((((QnH / pressure) ** (1 / 5.257)) -  1) * ( cTemp + 273.15)) / 0.0065)
+    #altitudeM = round(((((QnH / pressure) ** (1 / 5.257)) -  1) * ( cTemp + 273.15)) / 0.0065)
+    x1 = QnH / pressure
+    print ("x1 " + str(x1))
+    x2 = x1 ** (1/5.257)
+    print ("x2 " + str(x2))
+    x3 = x2 - 1
+    print ("x3 " + str(x3))
+    x4 = x3 * (cTemp + 273.15)
+    print ("x4 " + str(x4))
+    x5 = x4 / 0.0065
+    print ("x5 " + str(x5))
     #x1 = math.log((pressure * 100) / 101900)
     #x2 = (x1 * 287.053) * ((fTemp + 459.67) * (5 / 9))
     #altitudeM = x2 / -9.8
     
     #print ("Altitude: " + str(altitudeM))
-    return cTemp, pressure, altitudeM
+    return cTemp, pressure, x5
     
     #print ("Altitude: " + str(altitudeM))
 

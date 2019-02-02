@@ -30,7 +30,11 @@ import datetime
 import Comm
 
 ###CONFIGURATION###
-QnH = 1016
+f = open("config.txt", "r")
+for x in f:
+    if x[0:3] == "QNH":
+        xSplit = x.split(" ")
+        QnH = int(xSplit[1])
 
 print(" ")
 print("Config:")

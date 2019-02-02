@@ -30,7 +30,14 @@ import datetime
 import Comm
 
 ###CONFIGURATION###
-QnH = 1016
+try:
+    f = open("config.txt", "r")
+    for x in f:
+        if x[0:3] == "QNH":
+            xSplit = x.split(" ")
+            QnH = int(xSplit[1])
+except:
+    QnH = 1013
 
 print(" ")
 print("Config:")
@@ -131,10 +138,79 @@ while True:
             
         if turning > 1:
             print("Satellite moving!")
+            satellite_state = "moving"
+            break
         
         elif still > 3:
             print("Satellite still!")
+            satellite_state = "still"
+            break
     
     except:
          pass
 
+if satellite_state == "still":
+    cTemp, pressure, altitudeM = IMUTempPress.fnc_IMUTempPress(QnH)
+    altitudeM1 = altitudeM
+    pressure1 = pressure
+    time.sleep(0.7)
+    cTemp, pressure, altitudeM = IMUTempPress.fnc_IMUTempPress(QnH)
+    altitudeM2 = altitudeM
+    pressure2 = pressure
+    
+    #Check if both measurements are within boundaries (not decending or ascending)
+    if ((altitudeM1 - 2) < altitudeM2 < (altitudeM1 + 2)):
+        print("Altitude level")
+        import FM100
+    else:
+        print("Checking state of flight...")
+        #Check if both measurements are within boundaries (not decending or ascending)
+        if ((altitudeM1 - 2) < altitudeM2 < (altitudeM1 + 2)):
+            print("Altitude level")
+    
+        elif altitudeM1 < altitudeM2:
+            print("Alt Climbing!")
+    
+        elif altitudeM2 < altitudeM1:
+            print("Alt Descending!")
+        
+        if ((pressure1 - 2) < pressure2 < (pressure1 + 2)):
+            print("Pressure level")
+    
+        elif pressure1 < pressure2:
+            print("Pressure Climbing!")
+    
+        elif pressure2 > pressure1:
+            print("pressure Descending!")
+        
+else:
+    print("Checking state of flight...")
+    cTemp, pressure, altitudeM = IMUTempPress.fnc_IMUTempPress(QnH)
+    altitudeM1 = altitudeM
+    pressure1 = pressure
+    time.sleep(0.7)
+    cTemp, pressure, altitudeM = IMUTempPress.fnc_IMUTempPress(QnH)
+    altitudeM2 = altitudeM
+    pressure2 = pressure
+    
+    #Check if both measurements are within boundaries (not decending or ascending)
+    if ((altitudeM1 - 2) < altitudeM2 < (altitudeM1 + 2)):
+        print("Altitude level")
+    
+    elif altitudeM1 < altitudeM2:
+        print("Alt Climbing!")
+    
+    elif altitudeM2 < altitudeM1:
+        print("Alt Descending!")
+        
+    if ((pressure1 - 2) < pressure2 < (pressure1 + 2)):
+        print("Pressure level")
+    
+    elif pressure1 < pressure2:
+        print("Pressure Climbing!")
+    
+    elif pressure2 > pressure1:
+        print("pressure Descending!")
+        
+    
+    

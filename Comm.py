@@ -14,12 +14,19 @@ ser = serial.Serial(
     )
 print ("Serial is open...");
 
+f = open("config.txt", "r")
+for x in f:
+    if x[0:3] == "TMC":
+        xSplit = x.split(" ")
+        TMC = int(xSplit[1])
+print("TMC=" + str(TMC))
+
 print ("---SETUP DONE---");
 
 
 def fnc_CommTransmit(msg):
     #print ("Transmitting.")
-    serOut = (str(msg) + ";\n")
+    serOut = (str(TMC) + ";" + str(msg) + ";\n")
     ser.write(serOut)
     
 def fnc_CommRecieve():
@@ -37,10 +44,12 @@ def fnc_CommRecieve():
         
         ###Splitting###
         state_split=str_state.split(";")
-        str_data1 = str(state_split[0])
-        #print("Split: " + str_data1)
-        data = str_data1
-        
+        if int(state_split[0]) == TMC:
+            str_data1 = str(state_split[1])
+            #print("Split: " + str_data1)
+            data = str_data1
+        else:
+            pass
         
         '''
         state_split=str_state.split("'")

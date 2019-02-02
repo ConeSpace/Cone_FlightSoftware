@@ -18,7 +18,7 @@ f = open("config.txt", "r")
 for x in f:
     if x[0:3] == "TMC":
         xSplit = x.split(" ")
-        TMC = int(xSplit[1])
+        TMC = xSplit[1]
 print("TMC=" + str(TMC))
 
 print ("---SETUP DONE---");

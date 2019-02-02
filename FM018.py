@@ -131,6 +131,10 @@ $$$ $  $
             clear()
             print (dsp)
             
+            #Write data to file
+            #f = open("datalog.txt", "a")
+    
+            
             
             
         

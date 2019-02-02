@@ -30,7 +30,7 @@ def fnc_IMU_Gps():
             return time, lat, dirLat, lon, dirLon
                 
             
-            if times > 100:
+            if times > 1:
                 return
                 break
         except:

@@ -46,8 +46,8 @@ while True:
     cTemp, pressure, altitudeM = IMUTempPress.fnc_IMUTempPress(QnH)
     
     #Get GPS Data
-    print("Getting GPS")
-    time, lat, dirLat, lon, dirLon = IMUGps.fnc_IMU_Gps()
+    #print("Getting GPS")
+    #time, lat, dirLat, lon, dirLon = IMUGps.fnc_IMU_Gps()
     
     #Get everything else from the IMU
     print("Getting Accelerometer, Gyroscope and Heading")
@@ -58,8 +58,8 @@ while True:
     print(msgAlt)
     
     #Generate GPS Message
-    msgGps = "GPS " + str(time) + " " + str(lat) + " " + str(dirLat) + " " + str(lon)+ " " + str(dirLon)
-    print(msgGps)
+    #msgGps = "GPS " + str(time) + " " + str(lat) + " " + str(dirLat) + " " + str(lon)+ " " + str(dirLon)
+    #print(msgGps)
     
     #Generate Accelerometer Message
     msgAcc = "ACC " + str(ACCx) + " " + str(ACCy) + " " + str(ACCz)
@@ -72,10 +72,16 @@ while True:
     #Transmit msgs
     print("Transmitting...")
     Comm.fnc_CommTransmit(msgAlt)
-    Comm.fnc_CommTransmit(msgGps)
+    #Comm.fnc_CommTransmit(msgGps)
     Comm.fnc_CommTransmit(msgAcc)
     Comm.fnc_CommTransmit(msgGry)
     print("Transmission complete...")
+    
+    #Log Data
+    f = open("/home/pi/Desktop/InFlightSoftware/Logs/datalog.txt", "a")
+    f.write("\n" + str(msgAlt))
+    f.write("\n" + str(msgAcc))
+    f.write("\n" + str(msgGry))
     
     
     

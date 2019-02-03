@@ -28,6 +28,7 @@ import IMUGps
 import IMUAccComGyro
 import datetime
 import Comm
+import FCMS
 
 ###CONFIGURATION###
 try:
@@ -161,7 +162,7 @@ if satellite_state == "still":
     #Check if both measurements are within boundaries (not decending or ascending)
     if ((altitudeM1 - 2) < altitudeM2 < (altitudeM1 + 2)):
         print("Altitude level")
-        import FM100
+        FCMS.changeFM("FM100")
     else:
         print("Checking state of flight...")
         #Check if both measurements are within boundaries (not decending or ascending)

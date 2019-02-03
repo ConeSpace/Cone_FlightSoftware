@@ -9,6 +9,7 @@ import time
 import IMUTempPress
 import IMUGps
 import IMUAccComGyro
+import Comm
 ###CONFIGURATION###
 try:
     f = open("config.txt", "r")
@@ -26,7 +27,6 @@ print("QNH: " + str(QnH))
 Comm.fnc_CommTransmit("CFM FM100")
 print ("---FM100 setup done---")
 
-
 def checkComm():
     while True:
         time.sleep(1)
@@ -38,9 +38,10 @@ def checkComm():
             msgSplit = msg.split(" ")
             if msgSplit[1] == "changeFM":
                 fm = msgSplit[2]
-                import fm
-            
-    
+                if fm == "FM101":
+                    import FM101
+
+checkComm()
     
 def checkMovement():
     print("Checking if satellite moved")

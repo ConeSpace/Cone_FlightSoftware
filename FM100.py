@@ -10,6 +10,8 @@ import IMUTempPress
 import IMUGps
 import IMUAccComGyro
 import Comm
+from FCMS import changeFM
+from FCMS import continueFM
 ###CONFIGURATION###
 try:
     f = open("config.txt", "r")
@@ -17,6 +19,7 @@ try:
         if x[0:3] == "QNH":
             xSplit = x.split(" ")
             QnH = int(xSplit[1])
+    f.close()
 except:
     QnH = 1013
 
@@ -43,10 +46,13 @@ print ("---FM100 setup done---")
                     
 
 checkComm()'''
+
     
 def checkMovement():
     print("Checking if satellite moved")
-    while True:
+    #print FCMS.continueFM("FM100")
+    while continueFM("FM100"):
+        print("Checking")
         time.sleep(5)
         try:
             #---Reading---

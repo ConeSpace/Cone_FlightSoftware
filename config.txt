@@ -1,2 +1,3 @@
-QNH 996
-TMC cq7xaMdnSs
+QNH 1030 
+TMC cq7xaMdnSs 
+GLA 160.612594389 

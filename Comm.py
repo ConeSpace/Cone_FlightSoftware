@@ -44,7 +44,9 @@ def fnc_CommRecieve():
         
         ###Splitting###
         state_split=str_state.split(";")
-        
+        #print(TMC)
+        #print("Splitted: " + str(state_split[1]))
+        #print (TMC)
         if state_split[0] == TMC:
             str_data1 = str(state_split[1])
             #print("Split: " + str_data1)

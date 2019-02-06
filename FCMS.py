@@ -115,7 +115,7 @@ def changeFM(fm):
 def continueFM(fm):
    #Currently available: FM010-021 FM 100-101
     global activeFM
-    print (activeFM)
+    #print (activeFM)
     curr_state = fm_states[fm]
     #print(curr_state)
     if curr_state == "active":
@@ -153,6 +153,21 @@ def checkComm():
                         dataSplit = data[x].split(" ")
                         if dataSplit[0] == "QNH":
                             data[x] = "QNH " + str(QnH) + " \n"
+                            with open('config.txt', 'w') as file:
+                                file.writelines( data )
+                                break
+                    pass
+                if msgSplit[1] == "changeOrientation":
+                    Orientation = msgSplit[2]
+                    print("Changing orientation")
+                    #Get contents of config.txt
+                    with open('config.txt', 'r') as file:
+                        data = file.readlines()
+                    #Find ORR
+                    for x in range((len(data))):
+                        dataSplit = data[x].split(" ")
+                        if dataSplit[0] == "ORR":
+                            data[x] = "ORR " + str(Orientation) + " \n"
                             with open('config.txt', 'w') as file:
                                 file.writelines( data )
                                 break

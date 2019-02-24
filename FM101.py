@@ -114,6 +114,8 @@ def checkMovement():
                 if str(data) == "MSG ChecklistConfirmed":
                     print("                    received")
                     print("-CHECKLIST COMPLETE-")
+                    Comm.fnc_CommTransmit("MSG PreFlightCheck_Completed")
+                    FCMS.changeFM("FM103")
         
 
         #Check if both measurements are within boundaries (not decending or ascending)
@@ -124,7 +126,8 @@ def checkMovement():
             
             if GLA_set == False:
             
-                GLA = altitudeM2
+                GLA = round(altitudeM2)
+                GLA = int(GLA)
                 print(GLA)
             
                 #Change GLA in the config file

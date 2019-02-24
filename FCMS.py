@@ -26,6 +26,8 @@ fm_states = {
     "FM021": "disabled",
     "FM100": "disabled",
     "FM101": "disabled",
+    "FM102": "disabled",
+    "FM103": "disabled",
     }
     
 activeFM = "FM000"
@@ -33,7 +35,7 @@ activeFM = "FM000"
 print ("----FCMS setup done----")
 
 def changeFM(fm):
-    #Currently available: FM010-021 FM 100-101
+    #Currently available: FM010-021 FM 100-103
     
     global fm_states
     global activeFM
@@ -52,6 +54,8 @@ def changeFM(fm):
     "FM021": "disabled",
     "FM100": "disabled",
     "FM101": "disabled",
+    "FM102": "disabled",
+    "FM103": "disabled",
     }
     
     if fm == "FM010":
@@ -110,10 +114,20 @@ def changeFM(fm):
         fm_states["FM101"] = "active"
         activeFM = "FM101"
         import FM101
+    if fm == "FM102":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM102"] = "active"
+        activeFM = "FM102"
+        import FM102
+    if fm == "FM103":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM103"] = "active"
+        activeFM = "FM103"
+        import FM103
     return
         
 def continueFM(fm):
-   #Currently available: FM010-021 FM 100-101
+   #Currently available: FM010-021 FM 100-103
     global activeFM
     #print (activeFM)
     curr_state = fm_states[fm]
@@ -140,11 +154,13 @@ def checkComm():
                 if msgSplit[1] == "changeFM":
                     fm = msgSplit[2]
                     print("Changing FM")
+                    Comm.fnc_CommTransmit("MSG FCMS_ChangingFM")
                     changeFM(fm)
                     pass
                 if msgSplit[1] == "changeQnH":
                     QnH = msgSplit[2]
                     print("Changing QnH")
+                    Comm.fnc_CommTransmit("MSG FCMS_ChangingQnH")
                     #Get contents of config.txt
                     with open('config.txt', 'r') as file:
                         data = file.readlines()
@@ -160,6 +176,7 @@ def checkComm():
                 if msgSplit[1] == "changeOrientation":
                     Orientation = msgSplit[2]
                     print("Changing orientation")
+                    Comm.fnc_CommTransmit("MSG FCMS_ChangingOrientation")
                     #Get contents of config.txt
                     with open('config.txt', 'r') as file:
                         data = file.readlines()

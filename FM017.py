@@ -57,6 +57,11 @@ while True:
     print("Getting Accelerometer, Gyroscope and Heading")
     ACCx, ACCy, ACCz, gyroXangle, gyroYangle, gyroZangle, tiltCompensatedHeading = IMUAccComGyro.fnc_IMU_AxxComGry()
     
+    #Test Stuff
+    if ACCx > 1.5:
+        print("---IMPACT---")
+    
+    
     #Generate Temp Press and Altitude Message
     msgAlt = "ALT " + str(altitudeM) + " " + str(pressure) + " " + str(cTemp)
     print(msgAlt)
@@ -86,6 +91,7 @@ while True:
     f.write("\n" + str(msgAlt))
     f.write("\n" + str(msgAcc))
     f.write("\n" + str(msgGry))
+    f.write("\n" + str(datetime.datetime.now()))
     
     
     

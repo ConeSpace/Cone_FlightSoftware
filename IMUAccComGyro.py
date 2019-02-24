@@ -422,7 +422,7 @@ def fnc_IMU_AxxComGry():
         accYnorm = ACCy/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
 
     #Calculate pitch and roll
-
+    
     pitch = math.asin(accXnorm)
     roll = -math.asin(accYnorm/math.cos(pitch))
 
@@ -471,9 +471,9 @@ def fnc_IMU_AxxComGry():
     
     ###MEASURE G###
 
-    Gx = round((ACCx * 0.244)/1000, 3)
-    Gy = round((ACCy * 0.244)/1000, 3)
-    Gz = round((ACCz * 0.244)/1000, 3)
+    Gx = round((ACCx * 0.244)/1000, 3) * 3
+    Gy = round((ACCy * 0.244)/1000, 3) * 3
+    Gz = round((ACCz * 0.244)/1000, 3) * 3
     
     #To call: ACCx, ACCy, ACCz, gyroXangle, gyroYangle, gyroZangle, tiltCompensatedHeading = fnc_IMU_AxxComGry()
     return Gx, Gy, Gz, kalmanX, kalmanY, round(gyroZangle, 3), tiltCompensatedHeading 

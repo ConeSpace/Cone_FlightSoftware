@@ -1,4 +1,4 @@
-QNH 1030 
+QNH 1019 
 TMC cq7xaMdnSs 
-GLA 185.63077939 
+GLA 169 
 ORR upwards 

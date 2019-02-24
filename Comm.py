@@ -27,6 +27,7 @@ print ("---SETUP DONE---");
 def fnc_CommTransmit(msg):
     #print ("Transmitting.")
     serOut = (str(TMC) + ";" + str(msg) + ";\n")
+    #print(serOut)
     ser.write(serOut)
     
 def fnc_CommRecieve():

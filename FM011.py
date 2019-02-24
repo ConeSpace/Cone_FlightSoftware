@@ -14,9 +14,9 @@ int_total = 0
 
 while True:
     data = str(Comm.fnc_CommRecieve())
-    print("Serial Read: " + data )
+    #print("Serial Read: " + data )
     if data == "None":
-        print("Error_NoData")
+        #print("Error_NoData")
         
         ###LOG ERROR###
         
@@ -32,6 +32,8 @@ while True:
         str_cmdlog=(timestamp + " " + str_failed + " Failed, " + str_total + " Total; ")
         cmdlog.write(str_cmdlog)
         #print("Writing to file")
+    else:
+        print(data)
         
         
 time.sleep(0.5)

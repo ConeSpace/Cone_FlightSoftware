@@ -75,7 +75,7 @@ def getData():
             pass
         
 
-Thread(target = getData).start()
+
 
 #Evaluate Sensor Data
 def checkData():
@@ -106,8 +106,42 @@ def checkData():
         
             
             
-Thread(target = checkData).start()
+
 
 #Transmit Sensor Data
+def transmitData():
+    while continueFM("FM103"):
+        try:
+            #Generate messages
+            #Generate Temp Press and Altitude Message
+            msgAlt = "ALT " + str(altitudeM) + " " + str(pressure) + " " + str(cTemp)
+        
+            #Generate Accelerometer Message
+            msgAcc = "ACC " + str(ACCx) + " " + str(ACCy) + " " + str(ACCz)
+        
+            #Generate Gyroscope and Heading Message
+            msgGry = "GRY " + str(gyroXangle) + " " + str(gyroYangle) + " " + str(gyroZangle) + " " + str(tiltCompensatedHeading)
+        
+            #Transmit Messages
+            #Transmit msgs
+            print("Transmitting...")
+            Comm.fnc_CommTransmit(msgAlt)
+            #Comm.fnc_CommTransmit(msgGps)
+            Comm.fnc_CommTransmit(msgAcc)
+            Comm.fnc_CommTransmit(msgGry)
+            print("Transmission complete...")
+        
+            #Log Data
+            f = open("/home/pi/Desktop/InFlightSoftware/Logs/datalog.txt", "a")
+            f.write("\n" + str(msgAlt))
+            f.write("\n" + str(msgAcc))
+            f.write("\n" + str(msgGry))
+            f.write("\n" + str(datetime.datetime.now()))
+        except:
+            pass
+
+Thread(target = getData).start()
+Thread(target = checkData).start()
+Thread(target = transmitData).start()
 
 #Get and Transmit GPS Data

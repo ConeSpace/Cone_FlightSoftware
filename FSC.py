@@ -70,6 +70,10 @@ while True:
         
         
         print("Checking...")
+        #TESTING ONLY
+        print("---MASTER WARNING --- TESTING ONLY ---")
+        time.sleep(1)
+        FCMS.changeFM("FM100")
         
         #Heading
         if heading1 > (heading2 + 2):
@@ -106,10 +110,10 @@ while True:
             gryY_state = "still"
             
         #Gyro Z
-        if gryZ1 > (gryZ2 + 0.5):
+        if gryZ1 > (gryZ2 + 3):
             #print("Gyro Z Turning!")
             gryZ_state = "turning"
-        elif gryZ2 > (gryZ1 + 0.5):
+        elif gryZ2 > (gryZ1 + 3):
             #print("Gyro Z Turning!")
             gryZ_state = "turning"
         else:

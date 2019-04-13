@@ -132,16 +132,41 @@ def transmitData():
             print("Transmission complete...")
         
             #Log Data
-            f = open("/home/pi/Desktop/InFlightSoftware/Logs/datalog.txt", "a")
+            #f = open("/home/pi/Desktop/InFlightSoftware/Logs/datalog.txt", "a")
+            #f.write("\n" + str(msgAlt))
+            #f.write("\n" + str(msgAcc))
+            #f.write("\n" + str(msgGry))
+            #f.write("\n" + str(datetime.datetime.now()))
+        except:
+            pass
+        
+#Log Sensor Data
+def logData():
+    while continueFM("FM103"):
+        try:
+            #Generate messages
+            #Generate Temp Press and Altitude Message
+            msgAlt = "ALT " + str(altitudeM) + " " + str(pressure) + " " + str(cTemp)
+        
+            #Generate Accelerometer Message
+            msgAcc = "ACC " + str(ACCx) + " " + str(ACCy) + " " + str(ACCz)
+        
+            #Generate Gyroscope and Heading Message
+            msgGry = "GRY " + str(gyroXangle) + " " + str(gyroYangle) + " " + str(gyroZangle) + " " + str(tiltCompensatedHeading)
+        
+            #Log Data
+            f = open("/home/pi/Cone_FlightSoftware/Logs/datalog.txt", "a")
             f.write("\n" + str(msgAlt))
             f.write("\n" + str(msgAcc))
             f.write("\n" + str(msgGry))
             f.write("\n" + str(datetime.datetime.now()))
+            delay(0.1)
         except:
             pass
 
 Thread(target = getData).start()
 Thread(target = checkData).start()
 Thread(target = transmitData).start()
+#Thread(target = logData).start()
 
 #Get and Transmit GPS Data

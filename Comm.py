@@ -52,6 +52,7 @@ def fnc_CommRecieve():
             str_data1 = str(state_split[1])
             #print("Split: " + str_data1)
             data = str_data1
+            
         else:
             pass
         
@@ -77,6 +78,8 @@ TODO: LOG NOT WORKING
         print("Writing to file")
         '''
         if len(data) > 1:
+            fnc_CommTransmit("ACKNOWLEDGE")
+            #print("Transmitting")
             return data
         
 

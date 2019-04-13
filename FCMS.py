@@ -8,6 +8,7 @@ from threading import Thread
 import time
 import Comm
 import sys
+import servo
 print(sys.version_info)
 Comm.fnc_CommTransmit("MSG FCMS_setupDone")
 
@@ -28,6 +29,7 @@ fm_states = {
     "FM101": "disabled",
     "FM102": "disabled",
     "FM103": "disabled",
+    "FM200": "disabled",
     }
     
 activeFM = "FM000"
@@ -35,7 +37,7 @@ activeFM = "FM000"
 print ("----FCMS setup done----")
 
 def changeFM(fm):
-    #Currently available: FM010-021 FM 100-103
+    #Currently available: FM010-021 FM 100-103 FM200
     
     global fm_states
     global activeFM
@@ -56,6 +58,7 @@ def changeFM(fm):
     "FM101": "disabled",
     "FM102": "disabled",
     "FM103": "disabled",
+    "FM200": "disabled",
     }
     
     if fm == "FM010":
@@ -124,10 +127,15 @@ def changeFM(fm):
         fm_states["FM103"] = "active"
         activeFM = "FM103"
         import FM103
+    if fm == "FM200":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM200"] = "active"
+        activeFM = "FM200"
+        import FM200
     return
         
 def continueFM(fm):
-   #Currently available: FM010-021 FM 100-103
+   #Currently available: FM010-021 FM 100-103 FM200
     global activeFM
     #print (activeFM)
     curr_state = fm_states[fm]
@@ -145,6 +153,7 @@ def checkComm():
         try:
             time.sleep(1)
             msg = str(Comm.fnc_CommRecieve())
+            #Comm.fnc_CommTransmit("ACKNOWLEDGE")
         
             #print(msg)
             if msg[0:3] == "CMD":
@@ -154,12 +163,15 @@ def checkComm():
                 if msgSplit[1] == "changeFM":
                     fm = msgSplit[2]
                     print("Changing FM")
+                    #Comm.fnc_CommTransmit("ACKNOWLEDGE")
                     Comm.fnc_CommTransmit("MSG FCMS_ChangingFM")
                     changeFM(fm)
+                    #Comm.fnc_CommTransmit("ACKNOWLEDGE")
                     pass
                 if msgSplit[1] == "changeQnH":
                     QnH = msgSplit[2]
                     print("Changing QnH")
+                    #Comm.fnc_CommTransmit("ACKNOWLEDGE")
                     Comm.fnc_CommTransmit("MSG FCMS_ChangingQnH")
                     #Get contents of config.txt
                     with open('config.txt', 'r') as file:
@@ -172,10 +184,12 @@ def checkComm():
                             with open('config.txt', 'w') as file:
                                 file.writelines( data )
                                 break
+                    
                     pass
                 if msgSplit[1] == "changeOrientation":
                     Orientation = msgSplit[2]
                     print("Changing orientation")
+                    #Comm.fnc_CommTransmit("ACKNOWLEDGE")
                     Comm.fnc_CommTransmit("MSG FCMS_ChangingOrientation")
                     #Get contents of config.txt
                     with open('config.txt', 'r') as file:
@@ -188,6 +202,15 @@ def checkComm():
                             with open('config.txt', 'w') as file:
                                 file.writelines( data )
                                 break
+                    pass
+                if msgSplit[1] == "changeSRV":
+                    degrees = msgSplit[2]
+                    print("Moving servo")
+                    #Comm.fnc_CommTransmit("ACKNOWLEDGE")
+                    Comm.fnc_CommTransmit("MSG FCMS_MovingServo")
+                    #move servo
+                    servo.fnc_moveServo(degrees)
+                    
                     pass
                         
         except:

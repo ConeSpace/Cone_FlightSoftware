@@ -78,7 +78,9 @@ TODO: LOG NOT WORKING
         print("Writing to file")
         '''
         if len(data) > 1:
-            fnc_CommTransmit("ACKNOWLEDGE")
+            if data = "ACKNOWLEDGE":
+                print("Not pinging back")
+            else: fnc_CommTransmit("ACKNOWLEDGE")
             #print("Transmitting")
             return data
         

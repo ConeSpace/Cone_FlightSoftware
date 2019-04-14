@@ -31,6 +31,7 @@ fm_states = {
     "FM103": "disabled",
     "FM104": "disabled",
     "FM200": "disabled",
+    "FM201": "disabled",
     }
     
 activeFM = "FM000"
@@ -38,7 +39,7 @@ activeFM = "FM000"
 print ("----FCMS setup done----")
 
 def changeFM(fm):
-    #Currently available: FM010-021 FM 100-104 FM200
+    #Currently available: FM010-021 FM 100-104 FM200-2001
     
     global fm_states
     global activeFM
@@ -61,6 +62,7 @@ def changeFM(fm):
     "FM103": "disabled",
     "FM104": "disabled",
     "FM200": "disabled",
+    "FM201": "disabled",
     }
     
     if fm == "FM010":
@@ -134,15 +136,21 @@ def changeFM(fm):
         fm_states["FM104"] = "active"
         activeFM = "FM104"
         import FM104
+        
     if fm == "FM200":
         fm_states = {x:"disabled" for x in fm_states}
         fm_states["FM200"] = "active"
         activeFM = "FM200"
         import FM200
+    if fm == "FM201":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM201"] = "active"
+        activeFM = "FM201"
+        import FM201
     return
         
 def continueFM(fm):
-   #Currently available: FM010-021 FM 100-104 FM200
+   #Currently available: FM010-021 FM 100-104 FM200-2001
     global activeFM
     #print (activeFM)
     curr_state = fm_states[fm]

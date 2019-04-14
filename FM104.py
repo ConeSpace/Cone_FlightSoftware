@@ -10,6 +10,7 @@ import IMUTempPress
 import IMUGps
 import IMUAccComGyro
 import Comm
+import datetime
 from FCMS import changeFM
 from FCMS import continueFM
 ###CONFIGURATION###
@@ -142,6 +143,24 @@ def checkData():
                             break
                 
             Comm.fnc_CommTransmit("APG " + str(Apogee))
+            
+            #check for deployment
+            if ORR == "upwards":
+                #print("Checking smth")
+                if -45 > gyroYangle > -125:
+                print("")
+                
+                else:
+                    print("Deployment detected!!")
+                    Comm.fnc_CommTransmit("MSG FM104_Deployment")
+            if ORR == "downwards":
+                #print("Checking smth")
+                if 45 < gyroYangle < 125:            
+                    print("")
+                    
+                else:
+                    print("Deployment detected!!")
+                    Comm.fnc_CommTransmit("MSG FM104_Deployment")
             
         except:
             pass

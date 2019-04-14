@@ -1,6 +1,6 @@
 #
-#   Flight Mode 103
-#   Pre-Launch
+#   Flight Mode 200
+#   Reboot
 #
 
 import os

@@ -23,11 +23,33 @@ def fnc_IMU_Gps():
             data = ser.readline()
             #print(data)
             
-            time, lat, dirLat, lon, dirLon = parseGPS(data)
+            time, lat, dirLat, lon, dirLon, date = parseGPS(data)
             
             #actLat = str(lat[0:2] + " deg " + lat[2:4] + "M " + str(int(lat[5:]) * 60) + "S")
             #actLon = str(lon[0:2] + " deg " + lon[2:4] + "M " + str(int(lon[5:]) * 60) + "S")
             return time, lat, dirLat, lon, dirLon
+                
+            
+            if times > 1:
+                return
+                break
+        except:
+            #print ("Failed")
+            pass
+        
+def fnc_IMU_Gps_Date():
+    times = 0;
+    #Use: time, lat, dirLat, lon, dirLon = fnc_IMU_Gps()
+    while True:
+        try:
+            data = ser.readline()
+            #print(data)
+            
+            time, lat, dirLat, lon, dirLon, date = parseGPS(data)
+            
+            #actLat = str(lat[0:2] + " deg " + lat[2:4] + "M " + str(int(lat[5:]) * 60) + "S")
+            #actLon = str(lon[0:2] + " deg " + lon[2:4] + "M " + str(int(lon[5:]) * 60) + "S")
+            return date
                 
             
             if times > 1:
@@ -54,7 +76,7 @@ def parseGPS(data):
         dirLon = sdata[6]      #longitude direction E/W
         speed = "N/A"#sdata[7]       #Speed in knots
         trCourse = "N/A"#sdata[8]    #True course
-        date = "N/A"#sdata[9][0:2] + "/" + sdata[9][2:4] + "/" + sdata[9][4:6]#date
+        date = sdata[9][0:2] + "-" + sdata[9][2:4] + "-" + sdata[9][4:6]#date
         
         #print("Houston...")
         
@@ -63,7 +85,7 @@ def parseGPS(data):
         
         #print(lat + " " + lon)
         
-        return time, lat, dirLat, lon, dirLon
+        return time, lat, dirLat, lon, dirLon, date
  
         #print "time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s" %  (time,lat,dirLat,lon,dirLon,speed,trCourse,date)
     elif data[0:6] == "$GPRMC":
@@ -84,9 +106,11 @@ def parseGPS(data):
         #actLat = lat[0:2] + " deg " + lat[2:4] + "' " + str(int(lat[5:]) * 60) + "''"
         #actLon = lon[0:2] + " deg " + lon[2:4] + "' " + str(int(lon[5:]) * 60) + "''"
         
-        return time, lat, dirLat, lon, dirLon
+        return time, lat, dirLat, lon, dirLon, date
  
         #print "time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s" %  (time,lat,dirLat,lon,dirLon,speed,trCourse,date)
+    
+
  
 def decode(coord):
     #Converts DDDMM.MMMMM > DD deg MM.MMMMM min

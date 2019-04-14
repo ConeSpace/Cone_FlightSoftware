@@ -10,6 +10,7 @@ import IMUTempPress
 import IMUGps
 import IMUAccComGyro
 import Comm
+import datetime
 from FCMS import changeFM
 from FCMS import continueFM
 ###CONFIGURATION###

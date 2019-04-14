@@ -79,11 +79,21 @@ while True:
     print(msgGry)
     
     #Transmit msgs
-    print("Transmitting...")
-    Comm.fnc_CommTransmit(msgAlt)
+    #print("Transmitting...")
+    #Comm.fnc_CommTransmit(msgAlt)
     #Comm.fnc_CommTransmit(msgGps)
-    Comm.fnc_CommTransmit(msgAcc)
-    Comm.fnc_CommTransmit(msgGry)
+    #Comm.fnc_CommTransmit(msgAcc)
+    #Comm.fnc_CommTransmit(msgGry)
+    Comm.fnc_CommTransmit("ALM  " + str(altitudeM))
+    Comm.fnc_CommTransmit("PRS " + str(pressure))
+    Comm.fnc_CommTransmit("CTM " + str(cTemp))
+    Comm.fnc_CommTransmit("ACX "+ str(ACCx))
+    Comm.fnc_CommTransmit("ACY "+ str(ACCy))
+    Comm.fnc_CommTransmit("ACZ "+ str(ACCz))
+    Comm.fnc_CommTransmit("GRX "+ str(gyroXangle))
+    Comm.fnc_CommTransmit("GRY "+ str(gyroYangle))
+    Comm.fnc_CommTransmit("GRZ "+ str(gyroZangle))
+    Comm.fnc_CommTransmit("HDN "+ str(tiltCompensatedHeading))
     print("Transmission complete...")
     
     #Log Data

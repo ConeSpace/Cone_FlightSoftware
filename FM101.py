@@ -138,7 +138,7 @@ def checkMovement():
                 for x in range(len(data)):
                     #print("Trying to find GLA at " + str(x))
                     dataSplit = data[x].split(" ")
-                    #print("Gla?" + str(dataSplit[0]))
+                    #print("Gla?" + str(dataSplit[0]))                
                     if dataSplit[0] == "GLA":
                         print("FOUND GLA!")
                         data[x] = "GLA " + str(GLA) + " \n"
@@ -149,6 +149,15 @@ def checkMovement():
                             print("#Setting GLA")
                             Comm.fnc_CommTransmit("MSG PreFlightCheck_GLA_set")
                             
+                            break
+                with open('config.txt', 'r') as file:
+                    data = file.readlines()
+                for x in range(len(data)):
+                    dataSplit = data[x].split(" ")
+                    if dataSplit[0] == "APG":
+                        data[x] = "APG 0 \n"
+                        with open('config.txt', 'w') as file:
+                            file.writelines( data )
                             break
             
     

@@ -74,6 +74,7 @@ while True:
         print("---MASTER WARNING --- TESTING ONLY ---")
         time.sleep(1)
         FCMS.changeFM("FM100")
+        break
         
         #Heading
         if heading1 > (heading2 + 2):

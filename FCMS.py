@@ -29,6 +29,7 @@ fm_states = {
     "FM101": "disabled",
     "FM102": "disabled",
     "FM103": "disabled",
+    "FM104": "disabled",
     "FM200": "disabled",
     }
     
@@ -37,7 +38,7 @@ activeFM = "FM000"
 print ("----FCMS setup done----")
 
 def changeFM(fm):
-    #Currently available: FM010-021 FM 100-103 FM200
+    #Currently available: FM010-021 FM 100-104 FM200
     
     global fm_states
     global activeFM
@@ -58,6 +59,7 @@ def changeFM(fm):
     "FM101": "disabled",
     "FM102": "disabled",
     "FM103": "disabled",
+    "FM104": "disabled",
     "FM200": "disabled",
     }
     
@@ -109,7 +111,7 @@ def changeFM(fm):
     if fm == "FM100":
         fm_states = {x:"disabled" for x in fm_states}
         fm_states["FM100"] = "active"
-        #print("shitty 100 stuff")
+        print("shitty 100 stuff")
         activeFM = "FM100"
         import FM100
     if fm == "FM101":
@@ -127,6 +129,11 @@ def changeFM(fm):
         fm_states["FM103"] = "active"
         activeFM = "FM103"
         import FM103
+    if fm == "FM104":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM104"] = "active"
+        activeFM = "FM104"
+        import FM104
     if fm == "FM200":
         fm_states = {x:"disabled" for x in fm_states}
         fm_states["FM200"] = "active"
@@ -135,7 +142,7 @@ def changeFM(fm):
     return
         
 def continueFM(fm):
-   #Currently available: FM010-021 FM 100-103 FM200
+   #Currently available: FM010-021 FM 100-104 FM200
     global activeFM
     #print (activeFM)
     curr_state = fm_states[fm]
@@ -162,6 +169,7 @@ def checkComm():
                 msgSplit = msg.split(" ")
                 if msgSplit[1] == "changeFM":
                     fm = msgSplit[2]
+                    print("To: " + str(fm))
                     print("Changing FM")
                     #Comm.fnc_CommTransmit("ACKNOWLEDGE")
                     Comm.fnc_CommTransmit("MSG FCMS_ChangingFM")

@@ -89,19 +89,27 @@ def checkData():
                 #Check Acceleration
                 if ACCx > 1.5:
                     print("---LIFTOFF---")
+                    #GOTO Burn&Climb
+                    changeFM("FM104")
+                    
                 print("")
                 #print("Orientation normal")
             else:
                 print("Orientation abnormal!!")
+                Comm.fnc_CommTransmit("MSG FM103_OrrAbnormal!")
         if ORR == "downwards":
             #print("Checking smth")
             if 45 < gyroYangle < 125:
                 #Check Acceleration
                 if ACCx > -0.5:
                     print("---LIFTOFF---")
+                    #GOTO Burn&Climb
+                    FCMS.changeFM("FM104")
+                    
                 print("")
             else:
                 print("Orientation abnormal!!")
+                Comm.fnc_CommTransmit("MSG FM103_OrrAbnormal!")
         
         
             
@@ -124,12 +132,22 @@ def transmitData():
         
             #Transmit Messages
             #Transmit msgs
-            print("Transmitting...")
-            Comm.fnc_CommTransmit(msgAlt)
+            #print("Transmitting...")
+            #Comm.fnc_CommTransmit(msgAlt)
             #Comm.fnc_CommTransmit(msgGps)
-            Comm.fnc_CommTransmit(msgAcc)
-            Comm.fnc_CommTransmit(msgGry)
-            print("Transmission complete...")
+            #Comm.fnc_CommTransmit(msgAcc)
+            #Comm.fnc_CommTransmit(msgGry)
+            Comm.fnc_CommTransmit("ALM  " + str(altitudeM))
+            Comm.fnc_CommTransmit("PRS " + str(pressure))
+            Comm.fnc_CommTransmit("CTM " + str(cTemp))
+            Comm.fnc_CommTransmit("ACX "+ str(ACCx))
+            Comm.fnc_CommTransmit("ACY "+ str(ACCy))
+            Comm.fnc_CommTransmit("ACZ "+ str(ACCz))
+            Comm.fnc_CommTransmit("GRX "+ str(gyroXangle))
+            Comm.fnc_CommTransmit("GRY "+ str(gyroYangle))
+            Comm.fnc_CommTransmit("GRZ "+ str(gyroZangle))
+            Comm.fnc_CommTransmit("HDN "+ str(tiltCompensatedHeading))
+            #print("Transmission complete...")
         
             #Log Data
             #f = open("/home/pi/Desktop/InFlightSoftware/Logs/datalog.txt", "a")
@@ -137,6 +155,29 @@ def transmitData():
             #f.write("\n" + str(msgAcc))
             #f.write("\n" + str(msgGry))
             #f.write("\n" + str(datetime.datetime.now()))
+            time.sleep(0.25)
+            
+            try:
+                
+                print(" ")
+                #Get GPS Data
+                #print("Getting GPS")
+                #time, lat, dirLat, lon, dirLon = IMUGps.fnc_IMU_Gps()
+            
+                #Generate GPS Message
+                #msgGps = "GPS " + str(time) + " " + str(lat) + " " + str(dirLat) + " " + str(lon)+ " " + str(dirLon)
+                #print(msgGps)
+            
+                #Comm.fnc_CommTransmit(msgGps)
+                #Log Data
+                #f = open("/home/pi/Cone_FlightSoftware/gpslog.txt", "a")
+                #f.write("\n" + str(magGps))
+                #f.write("\n" + str(datetime.datetime.now()))
+            
+            
+            except:
+                pass
+            
         except:
             pass
         
@@ -161,12 +202,37 @@ def logData():
             f.write("\n" + str(msgGry))
             f.write("\n" + str(datetime.datetime.now()))
             delay(0.1)
+            
         except:
             pass
 
 Thread(target = getData).start()
 Thread(target = checkData).start()
 Thread(target = transmitData).start()
-#Thread(target = logData).start()
+Thread(target = logData).start()
 
 #Get and Transmit GPS Data
+def GPS():
+    while continueFM("FM103"):
+        try:
+            
+            #Get GPS Data
+            #print("Getting GPS")
+            time, lat, dirLat, lon, dirLon = IMUGps.fnc_IMU_Gps()
+            
+            #Generate GPS Message
+            msgGps = "GPS " + str(time) + " " + str(lat) + " " + str(dirLat) + " " + str(lon)+ " " + str(dirLon)
+            #print(msgGps)
+            
+            Comm.fnc_CommTransmit(msgGps)
+            #Log Data
+            f = open("/home/pi/Cone_FlightSoftware/gpslog.txt", "a")
+            f.write("\n" + str(magGps))
+            f.write("\n" + str(datetime.datetime.now()))
+            delay(1)
+            
+            
+        except:
+            pass
+
+Thread(target = GPS).start()

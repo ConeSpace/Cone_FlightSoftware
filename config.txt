@@ -2,3 +2,5 @@ QNH 1019
 TMC cq7xaMdnSs 
 GLA 260 
 ORR upwards 
+APG 180.0 
+INF 0 

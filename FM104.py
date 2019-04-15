@@ -144,23 +144,26 @@ def checkData():
                 
             Comm.fnc_CommTransmit("APG " + str(Apogee))
             
+            #print(gyroYangle)
+            
             #check for deployment
             if ORR == "upwards":
                 #print("Checking smth")
-                if -45 > gyroYangle > -125:
-                print("")
+                if  0 > gyroYangle:
+                    print("")
                 
                 else:
                     print("Deployment detected!!")
                     Comm.fnc_CommTransmit("MSG FM104_Deployment")
             if ORR == "downwards":
                 #print("Checking smth")
-                if 45 < gyroYangle < 125:            
+                if 0 < gyroYangle:            
                     print("")
                     
                 else:
                     print("Deployment detected!!")
                     Comm.fnc_CommTransmit("MSG FM104_Deployment")
+            
             
         except:
             pass

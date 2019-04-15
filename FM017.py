@@ -45,6 +45,7 @@ time.sleep(1)
 
 while True:
     
+    time.sleep(1)
     #Get Temperature Pressure and Altitude
     print("Getting Pressure, Temp and Altitute")
     cTemp, pressure, altitudeM = IMUTempPress.fnc_IMUTempPress(QnH)
@@ -97,7 +98,7 @@ while True:
     print("Transmission complete...")
     
     #Log Data
-    f = open("/home/pi/Desktop/InFlightSoftware/Logs/datalog.txt", "a")
+    f = open("/home/pi/Cone_FlightSoftware/Logs/datalog.txt", "a")
     f.write("\n" + str(msgAlt))
     f.write("\n" + str(msgAcc))
     f.write("\n" + str(msgGry))

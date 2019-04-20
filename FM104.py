@@ -52,6 +52,18 @@ print("GLA: " + str(GLA))
 Comm.fnc_CommTransmit("CFM FM104")
 print ("---FM104 setup done---")
 
+#change INF to 1
+with open('config.txt', 'r') as file:
+    data = file.readlines()
+for x in range(len(data)):
+    dataSplit = data[x].split(" ")
+    if dataSplit[0] == "INF":
+        data[x] = "INF 1 \n"
+        with open('config.txt', 'w') as file:
+            file.writelines( data )
+            break
+Comm.fnc_CommTransmit("MSG FM104_ChangingINF1")
+
 #Get Sensor Data
 def getData():
     while continueFM("FM104"):
@@ -90,6 +102,8 @@ def getVspeed():
 def checkData():
     global Burn
     global Apogee
+    global PassedApg
+    PassedApg = False
     Burn = True
     Apogee = 0
     while continueFM("FM104"):
@@ -128,10 +142,13 @@ def checkData():
                     Burn = False
                     Comm.fnc_CommTransmit("MSG FM104_BurnEnded")
                     
+            #print(Apogee)
+            #print(altitudeM)
+                    
             #check for Apogee
             if altitudeM > Apogee:
                 #new Apogee!
-                Apogee = round(altitudeM)
+                Apogee = int(round(altitudeM))
                 with open('config.txt', 'r') as file:
                     data = file.readlines()
                 for x in range(len(data)):
@@ -155,6 +172,11 @@ def checkData():
                 else:
                     print("Deployment detected!!")
                     Comm.fnc_CommTransmit("MSG FM104_Deployment")
+                    import timer
+                    #print("Uhm")
+                    #GOTO HighDescend
+                    changeFM("FM106")
+                    #print("dafuw")
             if ORR == "downwards":
                 #print("Checking smth")
                 if 0 < gyroYangle:            
@@ -163,11 +185,108 @@ def checkData():
                 else:
                     print("Deployment detected!!")
                     Comm.fnc_CommTransmit("MSG FM104_Deployment")
+                    import timer
+                    #print("Uhm")
+                    changeFM("FM106")
+                    print("dafuq")
+                    
+            #check for flight passed apogee
+            if (altitudeM + 20) < Apogee:
+                print("Passed Apogee!")
+                Comm.fnc_CommTransmit("MSG FM104_PassedApg")
+                import timer
+                changeFM("FM106")
+            
+            
+        except:
+            pass
+        
+#Transmit Sensor Data
+def transmitData():
+    while continueFM("FM104"):
+        try:
+            #Generate messages
+            #Generate Temp Press and Altitude Message
+            msgAlt = "ALT " + str(altitudeM) + " " + str(pressure) + " " + str(cTemp)
+        
+            #Generate Accelerometer Message
+            msgAcc = "ACC " + str(ACCx) + " " + str(ACCy) + " " + str(ACCz)
+        
+            #Generate Gyroscope and Heading Message
+            msgGry = "GRY " + str(gyroXangle) + " " + str(gyroYangle) + " " + str(gyroZangle) + " " + str(tiltCompensatedHeading)
+        
+            #Transmit stuff
+            Comm.fnc_CommTransmit("ALM  " + str(altitudeM))
+            Comm.fnc_CommTransmit("PRS " + str(pressure))
+            Comm.fnc_CommTransmit("CTM " + str(cTemp))
+            Comm.fnc_CommTransmit("ACX "+ str(ACCx))
+            Comm.fnc_CommTransmit("ACY "+ str(ACCy))
+            Comm.fnc_CommTransmit("ACZ "+ str(ACCz))
+            Comm.fnc_CommTransmit("GRX "+ str(gyroXangle))
+            Comm.fnc_CommTransmit("GRY "+ str(gyroYangle))
+            Comm.fnc_CommTransmit("GRZ "+ str(gyroZangle))
+            Comm.fnc_CommTransmit("HDN "+ str(tiltCompensatedHeading))
+            Comm.fnc_CommTransmit("VSP " + str(vSpeed))
+            #print("Transmission complete...")
+        
+            
+        except:
+            pass
+        
+#Log Sensor Data
+def logData():
+    while continueFM("FM104"):
+        try:
+            #Generate messages
+            #Generate Temp Press and Altitude Message
+            msgAlt = "ALT " + str(altitudeM) + " " + str(pressure) + " " + str(cTemp)
+        
+            #Generate Accelerometer Message
+            msgAcc = "ACC " + str(ACCx) + " " + str(ACCy) + " " + str(ACCz)
+        
+            #Generate Gyroscope and Heading Message
+            msgGry = "GRY " + str(gyroXangle) + " " + str(gyroYangle) + " " + str(gyroZangle) + " " + str(tiltCompensatedHeading)
+        
+            #Log Data
+            f = open("/home/pi/Cone_FlightSoftware/Logs/datalog.txt", "a")
+            f.write("\n" + str(msgAlt))
+            f.write("\n" + str(msgAcc))
+            f.write("\n" + str(msgGry))
+            f.write("\n" + str(datetime.datetime.now()))
+            time.sleep(0.11)
+            
+        except:
+            pass
+        
+#Get and Transmit GPS Data
+def GPS():
+    while continueFM("FM104"):
+        try:
+        #if True: 
+            #Get GPS Data
+            #print("Getting GPS")
+            time, lat, dirLat, lon, dirLon = IMUGps.fnc_IMU_Gps()
+            
+            #Generate GPS Message
+            msgGps = "GPS " + str(time) + " " + str(lat) + " " + str(dirLat) + " " + str(lon)+ " " + str(dirLon)
+            #print(msgGps)
+            
+            Comm.fnc_CommTransmit(msgGps)
+            #Log Data
+            f = open("/home/pi/Cone_FlightSoftware/Logs/gpslog.txt", "a")
+            f.write("\n" + str(msgGps))
+            f.write("\n" + str(datetime.datetime.now()))
+            delay(1)
+            #print("Logged GPS")
             
             
         except:
             pass
 
+
 Thread(target = getData).start()
 Thread(target = checkData).start()
 Thread(target = getVspeed).start()
+Thread(target = transmitData).start()
+Thread(target = logData).start()
+Thread(target = GPS).start()

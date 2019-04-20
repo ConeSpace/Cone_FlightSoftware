@@ -48,7 +48,7 @@ def fnc_moveServo(degrees):
         Comm.fnc_CommTransmit("MSG Wrong servo parameter")
         
     
-#fnc_moveServo(45)
+#fnc_moveServo(180)
 #time.sleep(1)
     
 

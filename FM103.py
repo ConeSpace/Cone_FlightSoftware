@@ -52,6 +52,7 @@ print("GLA: " + str(GLA))
 Comm.fnc_CommTransmit("CFM FM103")
 print ("---FM103 setup done---")
 
+
 #Get Sensor Data
 def getData():
     while continueFM("FM103"):
@@ -202,7 +203,7 @@ def logData():
             f.write("\n" + str(msgAcc))
             f.write("\n" + str(msgGry))
             f.write("\n" + str(datetime.datetime.now()))
-            delay(0.1)
+            time.sleep(0.11)
             
         except:
             pass
@@ -216,7 +217,7 @@ Thread(target = logData).start()
 def GPS():
     while continueFM("FM103"):
         try:
-            
+        #if True: 
             #Get GPS Data
             #print("Getting GPS")
             time, lat, dirLat, lon, dirLon = IMUGps.fnc_IMU_Gps()
@@ -227,10 +228,11 @@ def GPS():
             
             Comm.fnc_CommTransmit(msgGps)
             #Log Data
-            f = open("/home/pi/Cone_FlightSoftware/gpslog.txt", "a")
-            f.write("\n" + str(magGps))
+            f = open("/home/pi/Cone_FlightSoftware/Logs/gpslog.txt", "a")
+            f.write("\n" + str(msgGps))
             f.write("\n" + str(datetime.datetime.now()))
             delay(1)
+            #print("Logged GPS")
             
             
         except:

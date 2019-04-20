@@ -30,6 +30,12 @@ fm_states = {
     "FM102": "disabled",
     "FM103": "disabled",
     "FM104": "disabled",
+    "FM105": "disabled",
+    "FM106": "disabled",
+    "FM107": "disabled",
+    "FM108": "disabled",
+    "FM109": "disabled",
+    "FM110": "disabled",
     "FM200": "disabled",
     "FM201": "disabled",
     }
@@ -39,7 +45,7 @@ activeFM = "FM000"
 print ("----FCMS setup done----")
 
 def changeFM(fm):
-    #Currently available: FM010-021 FM 100-104 FM200-2001
+    #Currently available: FM010-021 FM 100-107 FM200-2001
     
     global fm_states
     global activeFM
@@ -61,6 +67,12 @@ def changeFM(fm):
     "FM102": "disabled",
     "FM103": "disabled",
     "FM104": "disabled",
+    "FM105": "disabled",
+    "FM106": "disabled",
+    "FM107": "disabled",
+    "FM108": "disabled",
+    "FM109": "disabled",
+    "FM110": "disabled",
     "FM200": "disabled",
     "FM201": "disabled",
     }
@@ -136,6 +148,36 @@ def changeFM(fm):
         fm_states["FM104"] = "active"
         activeFM = "FM104"
         import FM104
+    if fm == "FM105":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM105"] = "active"
+        activeFM = "FM105"
+        import FM105
+    if fm == "FM106":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM106"] = "active"
+        activeFM = "FM106"
+        import FM106
+    if fm == "FM107":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM107"] = "active"
+        activeFM = "FM107"
+        import FM107
+    if fm == "FM108":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM108"] = "active"
+        activeFM = "FM108"
+        import FM108
+    if fm == "FM109":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM109"] = "active"
+        activeFM = "FM109"
+        import FM109
+    if fm == "FM110":
+        fm_states = {x:"disabled" for x in fm_states}
+        fm_states["FM110"] = "active"
+        activeFM = "FM110"
+        import FM110
         
     if fm == "FM200":
         fm_states = {x:"disabled" for x in fm_states}
@@ -150,7 +192,7 @@ def changeFM(fm):
     return
         
 def continueFM(fm):
-   #Currently available: FM010-021 FM 100-104 FM200-2001
+   #Currently available: FM010-021 FM 100-107 FM200-2001
     global activeFM
     #print (activeFM)
     curr_state = fm_states[fm]
@@ -228,6 +270,18 @@ def checkComm():
                     servo.fnc_moveServo(degrees)
                     
                     pass
+                
+                if msgSplit[1] == "changeINF":
+                    INF = msgSplit[1]
+                    print("Changing INF")
+                    COMM.fnc_CommTransmit("MSG FCMS_ChangingINF")
+                    for x in range((len(data))):
+                        dataSplit = data[x].split(" ")
+                        if dataSplit[0] == "INF":
+                            data[x] = "INF " + str(INF) + " \n"
+                            with open('config.txt', 'w') as file:
+                                file.writelines( data )
+                                break
                         
         except:
             pass

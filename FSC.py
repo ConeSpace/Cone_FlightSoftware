@@ -39,6 +39,14 @@ try:
             QnH = int(xSplit[1])
 except:
     QnH = 1013
+try:
+    f = open("config.txt", "r")
+    for x in f:
+        if x[0:3] == "INF":
+            xSplit = x.split(" ")
+            INF = int(xSplit[1])
+except:
+    INF = 1
 
 print(" ")
 print("Config:")
@@ -71,10 +79,21 @@ while True:
         
         print("Checking...")
         #TESTING ONLY
-        print("---MASTER WARNING --- TESTING ONLY ---")
-        time.sleep(1)
-        FCMS.changeFM("FM100")
-        break
+        #print("---MASTER WARNING --- TESTING ONLY ---")
+        #time.sleep(1)
+        #FCMS.changeFM("FM100")
+        #break
+    
+        #check for INF status
+        if INF == 0:
+            print("NOT IN FLIGHT")
+            time.sleep(1)
+            FCMS.changeFM("FM100")
+            break
+        elif INF == 2:
+            print("AFTER IMPACT")
+            FCMS.changeFM("110")
+            break
         
         #Heading
         if heading1 > (heading2 + 2):

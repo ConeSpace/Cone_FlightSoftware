@@ -1,6 +1,6 @@
-QNH 1018 
+QNH 1023 
 TMC cq7xaMdnSs 
-GLA 260 
+GLA 168 
 ORR upwards 
-APG 180.0 
+APG 119 
 INF 0 

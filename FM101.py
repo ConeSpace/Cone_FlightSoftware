@@ -115,7 +115,7 @@ def checkMovement():
                     print("                    received")
                     print("-CHECKLIST COMPLETE-")
                     Comm.fnc_CommTransmit("MSG PreFlightCheck_Completed")
-                    FCMS.changeFM("FM103")
+                    #FCMS.changeFM("FM103")
         
 
         #Check if both measurements are within boundaries (not decending or ascending)

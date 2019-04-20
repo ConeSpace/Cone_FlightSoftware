@@ -113,3 +113,10 @@ def checkData():
             time.sleep(1)
             if (gyroYangle1 - 5) < gyroYangle < (gyroYangle + 5):
                 print("Not moving")
+                
+        except:
+            pass
+                
+Thread(target = getData).start()
+Thread(target = getVspeed).start()
+Thread(target = checkData).start()

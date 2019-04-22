@@ -1,6 +1,6 @@
 #
 #   Flight Mode 101
-#   Hibernation
+#   Pre-Launch Hibernation
 #
 
 print("---FM101 setup---")

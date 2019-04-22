@@ -92,7 +92,7 @@ while True:
             break
         elif INF == 2:
             print("AFTER IMPACT")
-            FCMS.changeFM("110")
+            FCMS.changeFM("FM110")
             break
         
         #Heading

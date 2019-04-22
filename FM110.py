@@ -113,10 +113,97 @@ def checkData():
             time.sleep(1)
             if (gyroYangle1 - 5) < gyroYangle < (gyroYangle + 5):
                 print("Not moving")
+                changeFM("FM102")
                 
+        except:
+            pass
+        
+
+#Log Sensor Data
+def logData():
+    while continueFM("FM110"):
+        try:
+            #Generate messages
+            #Generate Temp Press and Altitude Message
+            msgAlt = "ALT " + str(altitudeM) + " " + str(pressure) + " " + str(cTemp)
+        
+            #Generate Accelerometer Message
+            msgAcc = "ACC " + str(ACCx) + " " + str(ACCy) + " " + str(ACCz)
+        
+            #Generate Gyroscope and Heading Message
+            msgGry = "GRY " + str(gyroXangle) + " " + str(gyroYangle) + " " + str(gyroZangle) + " " + str(tiltCompensatedHeading)
+        
+            #Log Data
+            f = open("/home/pi/Cone_FlightSoftware/Logs/datalog.txt", "a")
+            f.write("\n" + str(msgAlt))
+            f.write("\n" + str(msgAcc))
+            f.write("\n" + str(msgGry))
+            f.write("\n" + str(datetime.datetime.now()))
+            time.sleep(0.11)
+            
+        except:
+            pass
+        
+#Transmit Sensor Data
+def transmitData():
+    while continueFM("FM110"):
+        try:
+            #Generate messages
+            #Generate Temp Press and Altitude Message
+            msgAlt = "ALT " + str(altitudeM) + " " + str(pressure) + " " + str(cTemp)
+        
+            #Generate Accelerometer Message
+            msgAcc = "ACC " + str(ACCx) + " " + str(ACCy) + " " + str(ACCz)
+        
+            #Generate Gyroscope and Heading Message
+            msgGry = "GRY " + str(gyroXangle) + " " + str(gyroYangle) + " " + str(gyroZangle) + " " + str(tiltCompensatedHeading)
+        
+            #Transmit stuff
+            Comm.fnc_CommTransmit("ALM  " + str(altitudeM))
+            Comm.fnc_CommTransmit("PRS " + str(pressure))
+            Comm.fnc_CommTransmit("CTM " + str(cTemp))
+            Comm.fnc_CommTransmit("ACX "+ str(ACCx))
+            Comm.fnc_CommTransmit("ACY "+ str(ACCy))
+            Comm.fnc_CommTransmit("ACZ "+ str(ACCz))
+            Comm.fnc_CommTransmit("GRX "+ str(gyroXangle))
+            Comm.fnc_CommTransmit("GRY "+ str(gyroYangle))
+            Comm.fnc_CommTransmit("GRZ "+ str(gyroZangle))
+            Comm.fnc_CommTransmit("HDN "+ str(tiltCompensatedHeading))
+            Comm.fnc_CommTransmit("VSP " + str(vSpeed))
+            #print("Transmission complete...")
+        
+            
+        except:
+            pass
+        
+#Get and Transmit GPS Data
+def GPS():
+    while continueFM("FM110"):
+        try:
+        #if True: 
+            #Get GPS Data
+            #print("Getting GPS")
+            time, lat, dirLat, lon, dirLon = IMUGps.fnc_IMU_Gps()
+            
+            #Generate GPS Message
+            msgGps = "GPS " + str(time) + " " + str(lat) + " " + str(dirLat) + " " + str(lon)+ " " + str(dirLon)
+            #print(msgGps)
+            
+            Comm.fnc_CommTransmit(msgGps)
+            #Log Data
+            f = open("/home/pi/Cone_FlightSoftware/Logs/gpslog.txt", "a")
+            f.write("\n" + str(msgGps))
+            f.write("\n" + str(datetime.datetime.now()))
+            delay(1)
+            #print("Logged GPS")
+            
+            
         except:
             pass
                 
 Thread(target = getData).start()
 Thread(target = getVspeed).start()
 Thread(target = checkData).start()
+Thread(target = transmitData).start()
+Thread(target = logData).start()
+Thread(target = GPS).start()

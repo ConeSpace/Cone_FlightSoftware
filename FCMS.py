@@ -9,6 +9,7 @@ import time
 import Comm
 import sys
 import servo
+import os
 print(sys.version_info)
 Comm.fnc_CommTransmit("MSG FCMS_setupDone")
 
@@ -217,6 +218,7 @@ def checkComm():
                 #print("receivec CMD")
                 #decrypt command
                 msgSplit = msg.split(" ")
+                
                 if msgSplit[1] == "changeFM":
                     fm = msgSplit[2]
                     print("To: " + str(fm))
@@ -226,6 +228,7 @@ def checkComm():
                     changeFM(fm)
                     #Comm.fnc_CommTransmit("ACKNOWLEDGE")
                     pass
+                
                 if msgSplit[1] == "changeQnH":
                     QnH = msgSplit[2]
                     print("Changing QnH")
@@ -244,6 +247,7 @@ def checkComm():
                                 break
                     
                     pass
+                
                 if msgSplit[1] == "changeOrientation":
                     Orientation = msgSplit[2]
                     print("Changing orientation")
@@ -261,6 +265,7 @@ def checkComm():
                                 file.writelines( data )
                                 break
                     pass
+                
                 if msgSplit[1] == "changeSRV":
                     degrees = msgSplit[2]
                     print("Moving servo")
@@ -272,9 +277,9 @@ def checkComm():
                     pass
                 
                 if msgSplit[1] == "changeINF":
-                    INF = msgSplit[1]
+                    INF = msgSplit[2]
                     print("Changing INF")
-                    COMM.fnc_CommTransmit("MSG FCMS_ChangingINF")
+                    Comm.fnc_CommTransmit("MSG FCMS_ChangingINF")
                     for x in range((len(data))):
                         dataSplit = data[x].split(" ")
                         if dataSplit[0] == "INF":
@@ -282,6 +287,14 @@ def checkComm():
                             with open('config.txt', 'w') as file:
                                 file.writelines( data )
                                 break
+                    pass
+                            
+                if msgSplit[1] == "lnx":
+                    lnx = msgSplit[2]
+                    print("linux command")
+                    Comm.fnc_CommTransmit("MSG FCMS_lnx")
+                    os.system(lnx)
+                    pass
                         
         except:
             pass

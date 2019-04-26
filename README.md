@@ -1,12 +1,7 @@
 # Cone_FlightSoftware
-The software for Cones Cansat
+The software for Cone's Cansat
 
-# For testing:
-Use the FirstTest and main.cpp to access the TestCode terminal. Enter a TestCode and run any predefined test.
-
-Use serialtest3.py for testing serial comm on the ground station.
-Use serialtest2.py for testing serial comm on the vehicle.
-Both only work with the significant other
+www.cone.space
 
 # Other information:
 
